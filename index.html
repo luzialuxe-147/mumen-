@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>young champion · story</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #faf8f5;
+            color: #1e2b37;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ----- INTRO OVERLAY (cinematic) ----- */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a1f2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 1.5s cubic-bezier(0.7, 0, 0.3, 1), visibility 1.5s;
+            pointer-events: none;
+        }
+        .intro-logo {
+            width: 150px;
+            height: 150px;
+            background: #e5c687;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px #ffb347;
+            animation: pulseGlow 1.5s infinite alternate, logoPop 1s ease-out;
+        }
+        .intro-logo i {
+            font-size: 5rem;
+            color: #0a1f2e;
+            transform: scale(1);
+            animation: iconSpin 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 30px #ffb347, 0 0 60px #f5a623; }
+            100% { box-shadow: 0 0 60px #ffd966, 0 0 120px #f1c40f; }
+        }
+        @keyframes logoPop {
+            0% { transform: scale(0.2); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes iconSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .intro-text {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #fff;
+            margin-top: 2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-right: 3px solid #e5c687;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 2.5s 0.8s forwards, blink 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 27rem; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* ----- main content (hidden until intro fades) ----- */
+        .main-content {
+            opacity: 0;
+            animation: fadeInContent 1s 2.8s forwards;
+        }
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        /* ----- container ----- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ----- hero section ----- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #162b38, #1d3b4c), url('https://images.unsplash.com/photo-1526232761682-d26e03ac148d?w=1200&auto=format&fit=crop') no-repeat center center/cover;
+            background-blend-mode: overlay;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .hero-content {
+            transform: translateY(30px);
+            animation: heroRise 1.2s 2.8s forwards;
+            opacity: 0;
+        }
+        @keyframes heroRise {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-shadow: 4px 4px 0 #e5c687;
+            line-height: 1.1;
+        }
+        .hero .sub {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-top: 1rem;
+            border-top: 2px solid #e5c687;
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            color: #ddd;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* ----- section titles ----- */
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 5rem 0 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 5px;
+            background: #e5c687;
+            margin-top: 0.5rem;
+            transition: width 0.5s;
+        }
+        .section-title:hover:after {
+            width: 100%;
+        }
+
+        /* ----- about ----- */
+        .about-grid {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-img {
+            flex: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 20px 20px 0 #e5c687;
+            transition: 0.3s;
+        }
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+        .about-text {
+            flex: 2;
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        /* ----- sports cards ----- */
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .sport-card {
+            background: white;
+            border-radius: 40px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .sport-card:hover {
+            border-color: #e5c687;
+            transform: translateY(-10px);
+            box-shadow: 0 30px 40px rgba(0,0,0,0.1);
+        }
+        .sport-icon {
+            font-size: 4rem;
+            color: #1d3b4c;
+            margin-bottom: 1rem;
+        }
+        .sport-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .sport-card p {
+            color: #4a5b66;
+        }
+
+        /* ----- moments (friends gallery) ----- */
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .moment {
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 1/1;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .moment img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+        .moment:hover img {
+            transform: scale(1.1);
+        }
+        .moment-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        .moment:hover .moment-overlay {
+            transform: translateY(0);
+        }
+
+        /* ----- achievements (timeline style) ----- */
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .achievement-item {
+            background: white;
+            padding: 1.8rem 2rem;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            transition: 0.2s;
+            border-left: 8px solid #e5c687;
+        }
+        .achievement-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 30px rgba(229,198,135,0.2);
+        }
+        .achievement-year {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #e5c687;
+            min-width: 100px;
+        }
+        .achievement-desc {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        /* ----- contact ----- */
+        .contact-section {
+            background: #0a1f2e;
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+            border-radius: 60px 60px 0 0;
+        }
+        .contact-flex {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        .contact-item {
+            font-size: 2rem;
+            background: rgba(255,255,255,0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            color: #e5c687;
+            text-decoration: none;
+        }
+        .contact-item:hover {
+            background: #e5c687;
+            color: #0a1f2e;
+            transform: scale(1.2) rotate(5deg);
+        }
+        .contact-email {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            color: #e5c687;
+        }
+
+        /* ----- footer ----- */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-weight: 300;
+            background: #0a1f2e;
+            color: #9aaeb9;
+        }
+
+        /* responsive */
+        @media (max-width: 800px) {
+            .hero h1 { font-size: 4rem; }
+            .intro-text { font-size: 1.8rem; white-space: normal; width: auto; border: none; animation: none; }
+            .about-grid { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTRO OVERLAY -->
+    <div class="intro-overlay" id="intro">
+        <div class="intro-logo">
+            <i class="fas fa-medal"></i>
+        </div>
+        <div class="intro-text">Every Champion Has a Story</div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>mumen </h1>
+                <div class="sub">Athlete • Friend • Dreamer</div>
+            </div>
+            <div class="hero-scroll">
+                <i class="fas fa-chevron-down"></i> discover
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- ABOUT ME -->
+            <section>
+                <h2 class="section-title">About me</h2>
+                <div class="about-grid">
+                    <div class="about-img">
+                        <img src="3d-cartoon-fitness-man.jpg" alt="athlete portrait">
+                    </div>
+                    <div class="about-text">
+                        <p>Hey! I'm mumen, and I live for the game — whether it's on the pitch, in the pool, or on two wheels. Sports taught me discipline, friendship, and that every champion starts as a dreamer. This is my story.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SPORTS LIFE (كرة قدم, سباحة, دراجة) -->
+            <section>
+                <h2 class="section-title">Sports life</h2>
+                <div class="sports-grid">
+                    <div class="sport-card">
+                        <div class="sport-icon"><i class="fas fa-futbol"></i></div>
+                        <h3>Football</h3>
+                        <p></p>
+                    </div>
+                    <div class="sport-card">
+                        <div class="sport-icon"><i class="fas fa-swimmer"></i></div>
+                        <h3>Swimming</h3>
+                    </div>
+                    <div class="sport-card">
+                        <div class="sport-icon"><i class="fas fa-bicycle"></i></div>
+                        <h3>Cycling</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MOMENTS WITH FRIENDS 
+            <section>
+                <h2 class="section-title">Moments with friends</h2>
+                <div class="moments-grid">
+                    <div class="moment">
+                        <img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=600&auto=format&fit=crop" alt="friends football">
+                        <div class="moment-overlay">🏆 after the final</div>
+                    </div>
+                    <div class="moment">
+                        <img src="https://images.unsplash.com/photo-1534889768990-63b50ee713ef?w=600&auto=format&fit=crop" alt="beach with friends">
+                        <div class="moment-overlay">🌊 beach day</div>
+                    </div>
+                    <div class="moment">
+                        <img src="https://images.unsplash.com/photo-1552674605-d6b3e5a7d4c9?w=600&auto=format&fit=crop" alt="cycling group">
+                        <div class="moment-overlay">🚵 sunrise ride</div>
+                    </div>
+                    <div class="moment">
+                        <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&auto=format&fit=crop" alt="team huddle">
+                        <div class="moment-overlay">🤝 team huddle</div>
+                    </div>
+                </div>
+            </section> -->
+
+            <!-- ACHIEVEMENTS 
+            <section>
+                <h2 class="section-title">Achievements</h2>
+                <div class="achievements-list">
+                    <div class="achievement-item">
+                        <span class="achievement-year">2024</span>
+                        <span class="achievement-desc">🏅 Regional swimming championship – bronze (100m free)</span>
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-year">2023</span>
+                        <span class="achievement-desc">⚽ Top scorer · school football league (15 goals)</span>
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-year">2023</span>
+                        <span class="achievement-desc">🚴 Youth cycling tour – 2nd place, hill climb category</span>
+                    </div>
+                    <div class="achievement-item">
+                        <span class="achievement-year">2022</span>
+                        <span class="achievement-desc">🏊‍♂️ MVP swimming team · most improved athlete</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+-->
+        <!-- CONTACT STATION -->
+        <section class="contact-section">
+            <div class="container" style="text-align: center;">
+                <h2 style="font-size: 3rem; color: white; margin-bottom: 2rem;">Let's connect</h2>
+                <div class="contact-flex">
+                    <a href="#" class="contact-item"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="contact-item"><i class="fab fa-snapchat-ghost"></i></a>
+                    <a href="#" class="contact-item"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="contact-item"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="contact-email">
+                    <i class="fas fa-at"></i> adam.ali@champion.story
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>© 2025 mumen  · every champion has a story</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT: hide intro after animation -->
+    <script>
+        (function() {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    document.getElementById('intro').style.opacity = '0';
+                    document.getElementById('intro').style.visibility = 'hidden';
+                }, 3500); // 3.5s for intro to complete
+            });
+
+            // smooth scroll for hero arrow (optional)
+            document.querySelector('.hero-scroll').addEventListener('click', function() {
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+            });
+        })();
+    </script>
+</body>
+</html>
